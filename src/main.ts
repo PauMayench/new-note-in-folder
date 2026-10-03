@@ -5,10 +5,14 @@ interface PatchableFileManager {
 	getNewFileParent(sourcePath: string, newFilePath?: string): TFolder;
 	createNewFolder(parent?: TFolder | null): Promise<TFolder | null>;
 }
+interface FileExplorerView {
+	startRenameFile(file: TFolder): Promise<void>;
+}
 
 const DEFAULT_SETTINGS = {
 	newFoldersInSelectedFolder: true,
 	highlightSelectedFolder: true,
+	f2RenamesSelectedFolder: true,
 };
 
 // New notes (Ctrl/Cmd+N, the "New note" button, ...) and new folders (the
@@ -66,6 +70,21 @@ export default class NewNoteInFolderPlugin extends Plugin {
 			const path = target.closest(".nav-folder-title")?.getAttribute("data-path");
 			const folder = path != null ? this.app.vault.getAbstractFileByPath(path) : null;
 			this.select(folder instanceof TFolder ? folder : null);
+		}, true);
+
+		// F2 renames the folder while it's highlighted (just clicked or created);
+		// otherwise F2 keeps renaming the open note. Window capture runs before
+		// Obsidian's own hotkeys.
+		this.registerDomEvent(window, "keydown", (evt) => {
+			if (evt.key !== "F2" || evt.ctrlKey || evt.metaKey || evt.altKey || evt.shiftKey) return;
+			if (!this.settings.f2RenamesSelectedFolder || !this.highlighted) return;
+			const folder = this.selectedFolder();
+			const view = this.app.workspace.getLeavesOfType("file-explorer")[0]?.view as unknown as FileExplorerView | undefined;
+			if (!folder || !view) return;
+
+			evt.preventDefault();
+			evt.stopPropagation();
+			view.startRenameFile(folder);
 		}, true);
 
 		// Opening a note (including the one just created) ends the selection.
@@ -127,6 +146,16 @@ class SettingTab extends PluginSettingTab {
 				toggle.setValue(settings.highlightSelectedFolder).onChange(async (value) => {
 					settings.highlightSelectedFolder = value;
 					this.plugin.updateHighlight();
+					await save();
+				}),
+			);
+
+		new Setting(this.containerEl)
+			.setName("F2 renames the selected folder")
+			.setDesc("Right after you click or create a folder, F2 renames that folder instead of the open note.")
+			.addToggle((toggle) =>
+				toggle.setValue(settings.f2RenamesSelectedFolder).onChange(async (value) => {
+					settings.f2RenamesSelectedFolder = value;
 					await save();
 				}),
 			);

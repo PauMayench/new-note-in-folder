@@ -21,10 +21,11 @@ The **New folder** button in the file explorer normally creates the folder at th
 
 ## Settings
 
-In *Settings → New Note in Folder* (both on by default):
+In *Settings → New Note in Folder* (all on by default):
 
 - **New folders go into the selected folder**: the New folder behaviour above.
 - **Highlight the selected folder**: Obsidian doesn't show which folder you've selected, so the plugin highlights it in the file explorer right after you click or create it. Your next click anywhere else hides the highlight, but the folder stays selected.
+- **F2 renames the selected folder**: Obsidian's F2 only renames the open note. Right after you click or create a folder, F2 renames that folder instead. Once you click elsewhere, F2 renames the note as usual.
 
 ## Install
 
