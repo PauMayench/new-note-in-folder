@@ -1,8 +1,8 @@
 # New Note in Folder
 
-An Obsidian plugin: click (or create) a folder in the file explorer, then create a new note. The note goes inside that folder.
+An Obsidian plugin: click (or create) a folder in the file explorer, then create a new note or folder. It goes inside that folder.
 
-It works with both **Ctrl/Cmd+N** and the **New note** button in the file explorer.
+It works with **Ctrl/Cmd+N** and with the **New note** and **New folder** buttons in the file explorer.
 
 ## Why
 
@@ -14,6 +14,17 @@ This plugin adds to that setting rather than replacing it:
 - **Otherwise** → Obsidian's default location setting applies as usual.
 
 Opening a note, clicking a file, or clicking empty space in the file explorer resets it to the default. Once the first note is created, "Same folder as current file" keeps the next notes in the same folder.
+
+## New folders too
+
+The **New folder** button in the file explorer normally creates the folder at the vault root. With a folder clicked or just created, it creates the new folder inside it, so you can build nested folders without dragging them around.
+
+## Settings
+
+In *Settings → New Note in Folder* (both on by default):
+
+- **New folders go into the selected folder**: the New folder behaviour above.
+- **Highlight the selected folder**: Obsidian doesn't show which folder you've selected, so the plugin highlights it in the file explorer right after you click or create it. Your next click anywhere else hides the highlight, but the folder stays selected.
 
 ## Install
 
