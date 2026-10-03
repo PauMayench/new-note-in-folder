@@ -1,0 +1,9 @@
+{
+	"id": "new-note-in-folder",
+	"name": "New Note in Folder",
+	"version": "1.0.0",
+	"minAppVersion": "1.4.0",
+	"description": "Create new notes inside the folder selected in the file explorer.",
+	"author": "paumay",
+	"isDesktopOnly": false
+}
